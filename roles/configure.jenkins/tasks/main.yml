@@ -1,0 +1,18 @@
+---
+  #Copy plugins to local machine
+  - copy:
+      src: /root/playbooks/static_files/plugins.txt
+      dest: /tmp/plugins.txt
+      owner: root
+      group: root
+      mode: 0644
+
+  #name: execute script to install plugins remote
+  - script: /root/playbooks/static_files/install_jenkins_plugins.sh
+    ignore_errors: yes
+
+  #Name: open port 8080 on firewall
+  - command: firewall-cmd --zone=public --add-port=8080/tcp --permanent
+
+  #Name: Reload firewall
+  - command: firewall-cmd --reload
